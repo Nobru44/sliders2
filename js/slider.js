@@ -12,20 +12,17 @@ var listPhotos = [
 	titre : 'Bel endroit 1'
 	},
 	{url : "images/3.jpg",
-	titre : 'Bel endroit 1'
+	titre : 'Bel endroit 2'
 	},
 	{url : "images/4.jpg",
-	titre : 'Bel endroit 1'
+	titre : 'Bel endroit 3'
 	},
 	{url : "images/5.jpg",
-	titre : 'Bel endroit 1'
+	titre : 'Bel endroit 4'
 	},
 	{url : "images/6.jpg",
-	titre : 'Bel endroit 1'
+	titre : 'Bel endroit 5'
 	},
-	/*{url : "images/1.jpg",
-	titre : 'Bel endroit 1'
-	}*/
 ];
 
 
@@ -40,28 +37,58 @@ function displayImg (indexImage) {
 }	
 
 function carroussel () {
-	setInterval(function() {
+	$('#slider-toggle i').removeClass("fas fa-play");
+	$('#slider-toggle i').addClass("fas fa-pause");
+	var mafunction = setInterval(run, 2000);
+	return mafunction;
+}
+
+
+function run () {
 		displayImg(counter);
 		counter++;
 		if(counter === listPhotos.length) {
 			counter = 0;	
-		}
-		}, 2000);
-	$('#slider-toggle i').removeClass("fas fa-play");
-	$('#slider-toggle i').addClass("fas fa-pause");
+		} 
+		
+	}
+
+function finish(mafunction) {
+clearInterval(mafunction);
+$('#slider-toggle i').removeClass("fas fa-pause");
+$('#slider-toggle i').addClass("fas fa-play");
 }
 
 
-/*function finish() {
-  clearInterval(intervalId);
-  document.getElementById("bip").innerHTML = "TERMINE!";	
-}*/
+
+
+/*<button onclick="start()">Lancer le décompte</button>
+<div id="bip" class="display"></div>
+
+<script>
+var counter = 10;
+var intervalId = null;
+function finish() {
+ 
+function bip() {
+    counter--;
+    if(counter == 0) finish();
+    else {	
+        document.getElementById("bip").innerHTML = counter + " secondes restantes";
+    }	
+}
+function start(){
+  intervalId = setInterval(bip, 1000);
+}	
+</script>*/
 
 /*************************************************************************************************/
 /* ************************************** CODE PRINCIPAL *************************************** */
 /*************************************************************************************************/
 
 var counter = 0;
+var intervalId = listPhotos.length;
+console.log(intervalId);
 
 $('#toolbar-toggle').on('click', function(counter){
 	$('.hide').toggle();
@@ -104,13 +131,11 @@ $('#slider-previous').on('click', function() {
 
 $('#slider-toggle').on('click', function(){
 		var node = $('#slider-toggle i');
-		console.log(node);
 		if (node.hasClass('fas fa-play') === true) {
 			carroussel();
 		} else if (node.hasClass('fas fa-pause') === true) {
-			var move = carroussel();
-			clearInterval(move);		
-			$('#slider-toggle i').removeClass("fas fa-pause");
-			$('#slider-toggle i').addClass("fas fa-pause");
+			var variable = carroussel();
+			console.log(variable);
+			finish(variable);			
 		}	
 	});
